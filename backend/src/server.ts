@@ -1,14 +1,21 @@
-import express from "express";
+import { PrismaClient } from "@prisma/client"
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+const prisma = new PrismaClient()
 
-app.use(express.json());
+async function main() {
+  try {
+    // Testar a conexão com o banco de dados
+    await prisma.$connect()
+    console.log("Conexão com o banco de dados estabelecida com sucesso!")
 
-app.get("/", (req, res) => {
-  res.send("API rodando com Express! 🚀");
-});
+    // Verificar se há usuários no banco
+    const userCount = await prisma.user.count()
+    console.log(`Número de usuários no banco: ${userCount}`)
+  } catch (error) {
+    console.error("Erro ao conectar com o banco de dados:", error)
+  } finally {
+    await prisma.$disconnect()
+  }
+}
 
-app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
-});
+main()
