@@ -63,7 +63,7 @@ const Grid: React.FC<GridProps> = ({ users, setUsers, setOnEdit }) => {
 
   const handleDelete = async (id: number) => {
     try {
-      const { data } = await axios.delete(`http://localhost:8800/${id}`)
+      const { data } = await axios.delete(`http://localhost:3000/users/${id}`)
       const newArray = users.filter((user) => user.id !== id)
       setUsers(newArray)
       toast.success(data)
@@ -72,13 +72,13 @@ const Grid: React.FC<GridProps> = ({ users, setUsers, setOnEdit }) => {
       toast.error("Erro ao excluir")
     }
   }
-  console.log(users)
+  console.log({ users })
 
   return (
     <Table>
       <Thead>
         <Tr>
-          <Th>Nome</Th>
+          <Th>Name</Th>
           <Th>Email</Th>
           <Th $onlyWeb>Fone</Th>
           <Th></Th>
@@ -88,7 +88,7 @@ const Grid: React.FC<GridProps> = ({ users, setUsers, setOnEdit }) => {
       <Tbody>
         {users.map((item, i) => (
           <Tr key={i}>
-            <Td $width="30%">{item.nome}</Td>
+            <Td $width="30%">{item.name}</Td>
             <Td $width="30%">{item.email}</Td>
             <Td $width="20%" $onlyWeb>
               {item.fone}

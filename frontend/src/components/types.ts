@@ -1,6 +1,6 @@
 export interface User {
     id: number // Garantindo que id é sempre um número
-    nome: string
+    name: string
     email: string
     fone: string
     data_birth: number

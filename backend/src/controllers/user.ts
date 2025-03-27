@@ -15,8 +15,8 @@ export const getUsers = async (req: Request, res: Response) => {
 
 export const addUser = async (req: Request, res: Response) => {
   try {
-    const { nome, email, fone, data_nascimento } = req.body;
-    const dataNascimento = data_nascimento ? new Date(data_nascimento) : null;
+    const { nome, email, fone, data_birth } = req.body;
+    const dataNascimento = data_birth ? new Date(data_birth) : null;
 
     const newUser = await prisma.user.create({
       data: { name: nome, email, fone, data_birth: dataNascimento },

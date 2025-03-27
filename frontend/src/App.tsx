@@ -26,8 +26,8 @@ function App() {
 
   const getUsers = async () => {
     try {
-      const res = await axios.get<User[]>("http://localhost:8800")
-      setUsers(res.data.sort((a, b) => (a.nome > b.nome ? 1 : -1)))
+      const res = await axios.get<User[]>("http://localhost:3000/users")
+      setUsers(res.data.sort((a, b) => (a.name > b.name ? 1 : -1)))
     } catch {
       // Removendo o parâmetro error que não está sendo usado
       toast.error("Erro ao buscar usuários")

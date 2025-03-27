@@ -12,6 +12,6 @@ model User {
   name       String  
   email      String   @unique
   fone       String? 
-  data_birth DateTime? 
+  data_birth DateTime?  
 }
 

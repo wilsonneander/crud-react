@@ -56,7 +56,7 @@ const Form: React.FC<FormProps> = ({ getUsers, onEdit, setOnEdit }) => {
         if (onEdit && ref.current) {
             const user = ref.current
 
-            user.nome.value = onEdit.nome
+            user.nome.value = onEdit.name
             user.email.value = onEdit.email
             user.fone.value = onEdit.fone
             user.data_birth = onEdit. data_birth
@@ -76,7 +76,7 @@ const Form: React.FC<FormProps> = ({ getUsers, onEdit, setOnEdit }) => {
         try {
             if (onEdit) {
                 await axios
-                    .put("http://localhost:8800/" + onEdit.id, {
+                    .put("http://localhost:3000/users" + onEdit.id, {
                         nome: user.nome.value,
                         email: user.email.value,
                         fone: user.fone.value,
@@ -86,7 +86,7 @@ const Form: React.FC<FormProps> = ({ getUsers, onEdit, setOnEdit }) => {
                     .catch((err) => toast.error(err.response?.data || "Erro ao atualizar"))
             } else {
                 await axios
-                    .post("http://localhost:8800", {
+                    .post("http://localhost:3000/users", {
                         nome: user.nome.value,
                         email: user.email.value,
                         fone: user.fone.value,

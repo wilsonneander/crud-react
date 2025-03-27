@@ -11,6 +11,8 @@ async function main() {
     // Verificar se há usuários no banco
     const userCount = await prisma.user.count()
     console.log(`Número de usuários no banco: ${userCount}`)
+
+    // Você pode adicionar mais testes ou operações aqui
   } catch (error) {
     console.error("Erro ao conectar com o banco de dados:", error)
   } finally {
