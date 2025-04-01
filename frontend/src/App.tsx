@@ -1,7 +1,7 @@
 import GlobalStyle from "./styles/global"
 import styled from "styled-components"
-import Form from "./components/Form"
-import Grid from "./components/Grid"
+import Form from "./components/Form/Form"
+import Grid from "./components/Grid/Grid"
 import { useEffect, useState } from "react"
 import { toast, ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
@@ -10,7 +10,6 @@ import type { User } from "./components/types"
 
 const Container = styled.div`
   width: 100%;
-  max-width: 800px;
   margin-top: 20px;
   display: flex;
   flex-direction: column;
@@ -22,14 +21,14 @@ const Title = styled.h2``
 
 function App() {
   const [users, setUsers] = useState<User[]>([])
-  const [onEdit, setOnEdit] = useState<User | null>(null)
+  const [userToEdit, setUserToEdit] = useState<User | null>(null)
 
+  // Modifique a função getUsers para garantir que os usuários sejam ordenados corretamente
   const getUsers = async () => {
     try {
       const res = await axios.get<User[]>("http://localhost:3000/users")
-      setUsers(res.data.sort((a, b) => (a.name > b.name ? 1 : -1)))
+      setUsers(res.data)
     } catch {
-      // Removendo o parâmetro error que não está sendo usado
       toast.error("Erro ao buscar usuários")
     }
   }
@@ -42,8 +41,8 @@ function App() {
     <>
       <Container>
         <Title>USUÁRIOS</Title>
-        <Form onEdit={onEdit} setOnEdit={setOnEdit} getUsers={getUsers} />
-        <Grid setOnEdit={setOnEdit} users={users} setUsers={setUsers} />
+        <Form defaultValues={userToEdit} />
+        <Grid setOnEdit={setUserToEdit} users={users} setUsers={setUsers} />
       </Container>
       <ToastContainer autoClose={3000} position="bottom-left" />
       <GlobalStyle />

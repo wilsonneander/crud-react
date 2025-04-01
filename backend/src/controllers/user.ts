@@ -15,11 +15,17 @@ export const getUsers = async (req: Request, res: Response) => {
 
 export const addUser = async (req: Request, res: Response) => {
   try {
-    const { nome, email, fone, data_birth } = req.body;
+    const { name, email, phone_number, data_birth } = req.body;
+
+    if (!name || !email || !phone_number || !data_birth) {
+      res.status(400).json({ error: "Preencha todos os campos" });
+      return;
+    }
+
     const dataNascimento = data_birth ? new Date(data_birth) : null;
 
     const newUser = await prisma.user.create({
-      data: { name: nome, email, fone, data_birth: dataNascimento },
+      data: { name, email, phone_number, data_birth: dataNascimento },
     });
 
     res.status(201).json({ message: "Usuário criado com sucesso.", user: newUser });
@@ -32,12 +38,12 @@ export const addUser = async (req: Request, res: Response) => {
 export const updateUser = async (req: Request, res: Response) => {
   try {
     const id = Number.parseInt(req.params.id);
-    const { nome, email, fone, data_nascimento } = req.body;
+    const { nome, email, phone_number, data_nascimento } = req.body;
     const dataNascimento = data_nascimento ? new Date(data_nascimento) : null;
 
     await prisma.user.update({
       where: { id },
-      data: { name: nome, email, fone, data_birth: dataNascimento },
+      data: { name: nome, email, phone_number, data_birth: dataNascimento },
     });
 
     res.status(200).json("Usuário atualizado com sucesso.");
