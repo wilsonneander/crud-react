@@ -1,9 +1,7 @@
-"use client"
-
-import axios from "axios"
-import type React from "react"
-import { useState } from "react"
-import { toast } from "react-toastify"
+import axios from "axios";
+import type React from "react";
+import { useState } from "react";
+import { toast } from "react-toastify";
 import {
   FormContainer,
   InputArea,
@@ -19,26 +17,26 @@ import {
   FormWrapper,
   FormTitle,
   FooterLinks,
-} from "./Form.styles"
-import { API_URL } from "../../api/client"
-import type { User } from "../types"
+} from "./Form.styles";
+import { API_URL } from "../../api/client";
+import type { User } from "../types";
 
 type FormProps = {
-  defaultValues?: User | null
-}
+  defaultValues?: User | null;
+};
 
 export default function Form({ defaultValues }: FormProps) {
-  const [name, setName] = useState(defaultValues?.name || "")
-  const [email, setEmail] = useState(defaultValues?.email || "")
-  const [phone, setPhone] = useState(defaultValues?.phone_number || "")
-  const [birhtDate, setBirhtDate] = useState(defaultValues?.data_birth || "")
+  const [name, setName] = useState(defaultValues?.name || "");
+  const [email, setEmail] = useState(defaultValues?.email || "");
+  const [phone, setPhone] = useState(defaultValues?.phone_number || "");
+  const [birhtDate, setBirhtDate] = useState(defaultValues?.data_birth || "");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const isValid = name && email && phone && birhtDate
+    const isValid = name && email && phone && birhtDate;
     if (!isValid) {
-      return toast.warn("Preencha todos os campos!")
+      return toast.warn("Preencha todos os campos!");
     }
 
     try {
@@ -47,28 +45,42 @@ export default function Form({ defaultValues }: FormProps) {
         email,
         phone_number: phone,
         data_birth: birhtDate,
-      }
+      };
 
       if (defaultValues?.id) {
-        await axios.put(`${API_URL}/users/${defaultValues.id}`, payload)
-        toast.success("Usuário atualizado com sucesso!")
-        return
+        await axios.put(`${API_URL}/users/${defaultValues.id}`, payload);
+        toast.success("Usuário atualizado com sucesso!");
+        return;
       } else {
-        await axios.post(`${API_URL}/users`, payload)
-        toast.success("Usuário criado com sucesso!")
+        await axios.post(`${API_URL}/users`, payload);
+        toast.success("Usuário criado com sucesso!");
       }
 
-      setName("")
-      setEmail("")
-      setPhone("")
-      setBirhtDate("")
+      setName("");
+      setEmail("");
+      setPhone("");
+      setBirhtDate("");
 
-      toast.success("Usuário cadastrado com sucesso!")
+      toast.success("Usuário cadastrado com sucesso!");
     } catch (error) {
-      console.error(error)
-      toast.error("Ocorreu um erro ao salvar os dados")
+      console.error(error);
+      toast.error("Ocorreu um erro ao salvar os dados");
     }
-  }
+  };
+
+  // Função para formatar o número de telefone
+  const formatPhone = (value: string): string => {
+    return value
+      .replace(/\D/g, "") // Remove todos os caracteres não numéricos
+      .replace(/^(\d{2})(\d)/, "($1) $2") // Formata o DDD
+      .replace(/(\d{5})(\d)/, "$1-$2") // Adiciona o hífen
+      .slice(0, 15); // Limita a string ao tamanho máximo de 15 caracteres
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const formattedPhone = formatPhone(e.target.value);
+    setPhone(formattedPhone);
+  };
 
   return (
     <PageContainer>
@@ -100,12 +112,22 @@ export default function Form({ defaultValues }: FormProps) {
 
             <InputArea>
               <Label>E-mail</Label>
-              <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+              <Input
+                placeholder="seunome@gmail.com"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </InputArea>
 
             <InputArea>
               <Label>Telefone</Label>
-              <Input value={phone} onChange={(e) => setPhone(e.target.value)} />
+              {/* Aplicando a máscara diretamente */}
+              <Input
+                placeholder="(XX) XXXXX-XXXX"
+                value={phone}
+                onChange={handlePhoneChange}
+              />
             </InputArea>
 
             <InputArea>
@@ -115,16 +137,13 @@ export default function Form({ defaultValues }: FormProps) {
 
             <Button type="submit">SALVAR</Button>
             <FooterLinks>
-            <span>
-              Já possui uma conta? <a href="#">Entrar</a>
-            </span>
-          </FooterLinks>
+              <span>
+                Já possui uma conta? <a href="#">Entrar</a>
+              </span>
+            </FooterLinks>
           </FormContainer>
-
-         
         </FormWrapper>
       </ContentContainer>
     </PageContainer>
-  )
+  );
 }
-

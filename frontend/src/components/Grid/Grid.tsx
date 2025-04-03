@@ -92,8 +92,8 @@ const Grid: React.FC<GridProps> = ({ users, setUsers, setOnEdit }) => {
             <Th onClick={() => handleSort("email")} style={{ cursor: "pointer" }}>
               Email {sortField === "email" && (sortDirection === "asc" ? "↑" : "↓")}
             </Th>
-            <Th onClick={() => handleSort("fone")} style={{ cursor: "pointer" }}>
-              Telefone {sortField === "fone" && (sortDirection === "asc" ? "↑" : "↓")}
+            <Th onClick={() => handleSort("phone_number")} style={{ cursor: "pointer" }}>
+              Telefone {sortField === "phone_number" && (sortDirection === "asc" ? "↑" : "↓")}
             </Th>
             <Th style={{ width: "100px", textAlign: "center" }}>Ações</Th>
           </Tr>
@@ -103,7 +103,7 @@ const Grid: React.FC<GridProps> = ({ users, setUsers, setOnEdit }) => {
             <Tr key={i}>
               <Td $width="30%">{item.name}</Td>
               <Td $width="30%">{item.email}</Td>
-              <Td $width="20%">{item.fone}</Td>
+              <Td $width="20%">{item.phone_number}</Td>
               <Td $alignCenter $width="20%">
                 <div style={{ display: "flex", gap: "8px", justifyContent: "center" }}>
                   <EditIcon onClick={() => handleEdit(item)}>
@@ -133,7 +133,7 @@ const Grid: React.FC<GridProps> = ({ users, setUsers, setOnEdit }) => {
             </CardRow>
             <CardRow>
               <CardLabel>Telefone:</CardLabel>
-              <CardValue>{item.fone}</CardValue>
+              <CardValue>{item.phone_number}</CardValue>
             </CardRow>
             <CardActions>
               <EditIcon onClick={() => handleEdit(item)}>
