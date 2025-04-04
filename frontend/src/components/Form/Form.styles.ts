@@ -140,6 +140,7 @@ export const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  z-index: 0;
 `
 
 export const FooterLinks = styled.div`

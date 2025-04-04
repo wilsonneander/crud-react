@@ -21,7 +21,6 @@ const Title = styled.h2``
 
 function App() {
   const [users, setUsers] = useState<User[]>([])
-  const [userToEdit, setUserToEdit] = useState<User | null>(null)
 
   // Modifique a função getUsers para garantir que os usuários sejam ordenados corretamente
   const getUsers = async () => {
@@ -41,8 +40,8 @@ function App() {
     <>
       <Container>
         <Title>USUÁRIOS</Title>
-        <Form defaultValues={userToEdit} />
-        <Grid setOnEdit={setUserToEdit} users={users} setUsers={setUsers} />
+        <Form />
+        <Grid users={users} setUsers={setUsers} />
       </Container>
       <ToastContainer autoClose={3000} position="bottom-left" />
       <GlobalStyle />

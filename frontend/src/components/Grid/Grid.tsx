@@ -1,6 +1,7 @@
 "use client"
 
 import type React from "react"
+import Modal from "../Modal/Modal"
 import axios from "axios"
 import { FaTrash, FaEdit } from "react-icons/fa"
 import { toast } from "react-toastify"
@@ -27,21 +28,19 @@ import {
 interface GridProps {
   users: User[]
   setUsers: React.Dispatch<React.SetStateAction<User[]>>
-  setOnEdit: React.Dispatch<React.SetStateAction<User | null>>
 }
 
 
-
 // Componente principal
-const Grid: React.FC<GridProps> = ({ users, setUsers, setOnEdit }) => {
+const Grid: React.FC<GridProps> = ({ users, setUsers }) => {
   const [sortField, setSortField] = useState<keyof User>("name")
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc")
-
-
-
+  const [openModal, setOpenModal] = useState(false)
+  const [modalUser, setModalUser] = useState<User | null>(null)
 
   const handleEdit = (item: User) => {
-    setOnEdit(item)
+    setModalUser(item)
+    setOpenModal(true)
   }
 
   const handleDelete = async (id: number) => {
@@ -146,6 +145,9 @@ const Grid: React.FC<GridProps> = ({ users, setUsers, setOnEdit }) => {
           </MobileCard>
         ))}
       </MobileCardList>
+
+       <Modal visible={openModal} setVisible={setOpenModal} userData={modalUser} /> 
+
     </GridContainer>
   )
 }

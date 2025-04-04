@@ -122,7 +122,6 @@ export default function Form({ defaultValues }: FormProps) {
 
             <InputArea>
               <Label>Telefone</Label>
-              {/* Aplicando a máscara diretamente */}
               <Input
                 placeholder="(XX) XXXXX-XXXX"
                 value={phone}

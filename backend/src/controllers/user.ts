@@ -66,14 +66,16 @@ export const addUser = async (req: Request, res: Response) => {
 
 export const updateUser = async (req: Request, res: Response) => {
   try {
-    console.log("Parâmetros recebidos:", req.params); // Confirme se o ID chega na API
+        console.log("Parâmetros recebidos:", req.params); // Confirme se o ID chega na API
     const id = Number.parseInt(req.params.id);
-    const { nome, email, phone_number, data_nascimento } = req.body;
+    const { name, email, phone_number, data_nascimento } = req.body;
     const dataNascimento = data_nascimento ? new Date(data_nascimento) : null;
+
+    
 
     await prisma.user.update({
       where: { id },
-      data: { name: nome, email, phone_number, data_birth: dataNascimento },
+      data: { name, email, phone_number, data_birth: dataNascimento },
     });
 
     res.status(200).json("Usuário atualizado com sucesso.");
@@ -87,7 +89,7 @@ export const deleteUser = async (req: Request, res: Response) => {
   try {
     const id = Number.parseInt(req.params.id);
     await prisma.user.delete({ where: { id } });
-    res.status(200).json("Usuário deletado com sucesso.");
+    res.status(200).json({ message: "Usuário deletado com sucesso." });
   } catch (error) {
     console.error("Erro ao deletar usuário:", error);
     res.status(500).json({ error: "Erro ao deletar usuário" });
